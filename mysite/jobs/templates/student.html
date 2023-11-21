@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+
+    <title>CRUD FROM API</title>
+    {% load static %}
+    <link href="{% static '/index.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-mynav">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">My App</a>
+      </div>
+    </nav>
+    <h1 style="text-align: center; margin: 1vh;">Hello {{ user }}</h1>
+
+
+    <div class="container">
+      <div class="d-flex bd-highlight mb-3">
+        <div class="me-auto p-2 bd-highlight"><h2>Users</h2></div>
+        <div class="p-2 bd-highlight">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="showUserCreateBox()"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Department</th>
+              <th scope="col">Roll No.</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="mytable">
+            <!-- Name :<br>
+            Department :<br>
+            Roll.Number :<br>
+            <br><hr>
+             -->
+            <!-- render this object in table -->
+            {% for student in student %}
+            <tr>
+              <td>{{student.id}}</td>
+              <td>{{student.name}}</td>
+              <td>{{student.department}}</td>
+              <td>{{student.rollno}}</td>
+              <td>
+                <button type="button" class="btn btn-outline-secondary" onclick="showUserEditBox({{student.id}})">
+                  Edit
+                </button>
+                <button type="button" class="btn btn-outline-danger" onclick="userDelete({{student.id}})">
+                  Del
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // create a edit function for onclick
+      function showUserEditBox(id) {
+        // console.log(typeof(id));
+        // get the user data from api
+        window.url="http://localhost:8000/"+id+"/update";
+        window.open(url, "_self");
+      }
+
+      // for userDelete
+      function userDelete(id) {
+        console.log(typeof(id));
+        // get the user data from api
+        window.url="http://localhost:8000/"+id+"/delete";
+        window.open(url, "_self");
+      }
+      function showUserCreateBox()
+      {
+        window.url="http://localhost:8000/forms";
+        window.open(url, "_self");
+      }
+      
+    </script>
+        <a href="{% url 'logout' %}">Logout </a>
+  </body>
+</html>
